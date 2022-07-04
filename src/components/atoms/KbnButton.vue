@@ -47,7 +47,7 @@ export default {
   padding: .6em 1.3em;
 }
 
-.kbn-button {
+.kbn-button-text {
   border: none;
   padding-left: 0;
   padding-right: 0;
