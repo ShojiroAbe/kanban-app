@@ -8,12 +8,12 @@ export default {
     // TODO:
     throw new Error('login実装してください')
   },
-  
+
   fetchLists: ({ commit }) => {
     // TODO:
     throw new Error('fetchLists実装してください')
   },
-  
+
   addTask: ({ commit }) => {
     // TODO:
     throw new Error('addTask実装してください')

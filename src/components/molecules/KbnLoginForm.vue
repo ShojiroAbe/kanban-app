@@ -2,7 +2,7 @@
   <form novalidate>
     <div class="form-item">
       <label for="email">メールアドレス</label>
-      <input 
+      <input
         id="email"
         v-model="email"
         type="text"
@@ -16,7 +16,7 @@
     </div>
     <div class="form-item">
       <label for="password">パスワード</label>
-      <input 
+      <input
         id="password"
         v-model="password"
         type="password"
@@ -28,7 +28,7 @@
       </ul>
     </div>
     <div class="form-actions">
-      <KbnButton 
+      <KbnButton
         :disabled="disabledLoginAction"
         @click="handleClick">
         ログイン
@@ -50,90 +50,90 @@
 </template>
 
 <script>
-  // KbnButtonをインポート
-  import KbnButton from '@/components/atoms/KbnButton'
-  // メールアドレスのフォーマットをチェックする正規表現
-  const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-z]{2,}))$/
-  const required = val => !!val.trim()
+// KbnButtonをインポート
+import KbnButton from '@/components/atoms/KbnButton'
+// メールアドレスのフォーマットをチェックする正規表現
+const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-z]{2,}))$/
+const required = val => !!val.trim()
 
-  export default {
-    name: 'KbnLoginForm',
+export default {
+  name: 'KbnLoginForm',
 
-    components: {
-      KbnButton
-    },
+  components: {
+    KbnButton
+  },
 
-    props: {
-      onlogin: {
-        type: Function,
-        required: true
-      }
-    },
+  props: {
+    onlogin: {
+      type: Function,
+      required: true
+    }
+  },
 
-    data(){
+  data () {
+    return {
+      email: '',
+      password: '',
+      progress: false,
+      error: ''
+    }
+  },
+
+  computed: {
+    validation () {
+      // emailとpasswordのバリデーション
       return {
-        email: '',
-        password: '',
-        progress: false,
-        error: ''
+        email: {
+          required: required(this.email),
+          format: REGEX_EMAIL.test(this.email)
+        },
+        password: {
+          required: required(this.password)
+        }
       }
     },
 
-    computed: {
-      validation() {
-        // emailとpasswordのバリデーション
-        return {
-          email: {
-            required: required(this.email),
-            format: REGEX_EMAIL.test(this.email)
-          },
-          password: {
-            required: required(this.password)
-          }
-        }
-      },
-
-      void() {
-        const validation = this.validation // 先に定義したvalidationを用いて可否を返す
-        const fields = Object.keys(validation)
-        let valid = true
-        for (let i = 0; i < fields.length; i++) {
-          const filed = fields[i]
-          valid = Object.keys(validation[filed])
+    void () {
+      const validation = this.validation // 先に定義したvalidationを用いて可否を返す
+      const fields = Object.keys(validation)
+      let valid = true
+      for (let i = 0; i < fields.length; i++) {
+        const filed = fields[i]
+        valid = Object.keys(validation[filed])
           .every(key => validation[filed][key])
-          if(!valid) { break }
-        }
-        return vaild
-      },
-      
-      disableLoginAction() {
-        // vaildを使ってログイン処理の可否、progressは後述
-        return !this.vaild || this.progress
+        if (!valid) { break }
       }
+      return valid
     },
 
-    methods: {
-      resetError() {
-        this.error = ''
-      },
+    disableLoginAction () {
+      // vaildを使ってログイン処理の可否、progressは後述
+      return !this.vaild || this.progress
+    }
+  },
 
-      handleClick(ev) {
-        if(this.disableLoginAction) { return } // 不備があればログインが実行されないようガード
-        this.progress = true // ログイン処理実行中をあらわす
-        this.error = ''
+  methods: {
+    resetError () {
+      this.error = ''
+    },
 
-        this.$nextTick(() => {
-          this.onlogin({ email: this.email, password: password })
-            .catch(err => {
-              this.error = err.message
-            })
-            .then(() => {
-              this.progress = false
-            })
-        })
-      }
+    handleClick (ev) {
+      if (this.disableLoginAction) { return } // 不備があればログインが実行されないようガード
+      this.progress = true // ログイン処理実行中をあらわす
+      this.error = ''
+
+      this.$nextTick(() => {
+        this.onlogin({ email: this.email, password: this.password })
+          .catch(err => {
+            this.error = err.message
+          })
+          .then(() => {
+            this.progress = false
+          })
+      })
     }
   }
+}
 </script>
 
 <style scoped>
