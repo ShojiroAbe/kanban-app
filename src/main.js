@@ -4,9 +4,9 @@ import Vue from 'vue'
 import 'es6-promise/auto' // プロミスをポリフィルする
 import App from './App'
 import router from './router'
-import store from './store'
+import store from './store' // Vuexのストアインスタンスをインポート
 
-Vue.config.productionTip = false
+Vue.config.productionTip = process.env.Node_ENV === 'production'
 
 /* eslint-disable no-new */
 new Vue({
