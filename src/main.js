@@ -6,7 +6,7 @@ import App from './App'
 import router from './router'
 import store from './store' // Vuexのストアインスタンスをインポート
 
-Vue.config.productionTip = process.env.Node_ENV === 'production'
+Vue.config.productionTip = process.env.NODE_ENV === 'production'
 
 /* eslint-disable no-new */
 new Vue({

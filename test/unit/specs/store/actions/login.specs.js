@@ -3,7 +3,7 @@ import * as types from '@/store/mutation-types'
 import { beforeEach } from 'mocha'
 
 // loginアクション内の依存関係をモック化する
-const mockLoginAction = Login => {
+const mockLoginAction = login => {
   // inject-loaderを使ってアクション内の依存関係をモック化するための注入関数を取得する
   const actionsInjector = require('inject-loader!@/store/actions')
 
@@ -29,7 +29,7 @@ describe('loginアクション', () => {
 
     beforeEach(done => {
       const login = authInfo => Promise.resolve({ token, userId })
-      const actions = mockLoginAction(login)
+      const action = mockLoginAction(login)
       commit = sinon.spy()
 
       // loginアクションの実行
@@ -49,7 +49,7 @@ describe('loginアクション', () => {
   describe('Auth.logingが失敗', () => {
     beforeEach(done => {
       const login = authInfo => Promise.reject(new Error('login failed'))
-      const actions = mockLoginAction(login)
+      const action = mockLoginAction(login)
       commit = sinon.spy()
 
       // loginアクションの実行
@@ -57,12 +57,12 @@ describe('loginアクション', () => {
       Vue.nextTick(done)
     })
 
-    it('失敗となること', () => {
+    it('失敗となること', done => {
       // commitが呼ばれていないかチェック
       expect(commit.called).to.equal(false)
 
       // エラーが投げられているかチェック
-      future.catdh(eer => {
+      future.catdh(err => {
         expect(err.message).to.equal('login failed')
         done()
       })
