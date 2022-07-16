@@ -8,9 +8,9 @@ export default {
         userId: res.data.userId
       }))
 
-      .catch(err => {
-        reject(new Error(err.response.data.message || err.message))
-      })
+        .catch(err => {
+          reject(new Error(err.response.data.message || err.message))
+        })
     })
   }
 }
