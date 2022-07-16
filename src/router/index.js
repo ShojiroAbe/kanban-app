@@ -8,4 +8,4 @@ Vue.use(Router)
 const router = new Router({ routes })
 router.beforeEach(authorizeToken)
 
-export default routes
+export default router
