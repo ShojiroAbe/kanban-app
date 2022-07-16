@@ -12,7 +12,8 @@ const mockAuth = adapter => {
 describe('Auth APIモジュール', () => {
   describe('login', () => {
     const token = '1234567890abcdef'
-    const address ='foo@domain.com'
+    const userId = 1
+    const address = 'foo@domain.com'
     const password = '12345678'
 
     describe('成功', () => {
@@ -28,7 +29,7 @@ describe('Auth APIモジュール', () => {
           expect(res.token).to.equal(token)
           expect(res.userId).to.equal(userId)
         })
-        .then(done)
+          .then(done)
       })
     })
 
@@ -47,7 +48,7 @@ describe('Auth APIモジュール', () => {
         auth.login({ address, password }).catch(err => {
           expect(err.message).to.equal(message)
         })
-        .then(done)
+          .then(done)
       })
     })
   })

@@ -32,7 +32,7 @@ describe('KbnButton', () => {
         })
       })
     })
-    
+
     describe('disabled', () => {
       describe('デフォルト', () => {
         it('disabled属性が付与されていないこと', () => {
@@ -56,7 +56,6 @@ describe('KbnButton', () => {
           expect(button.attributes().disabled).to.be.an('undefined')
         })
       })
-
     })
   })
 

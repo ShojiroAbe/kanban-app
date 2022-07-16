@@ -29,7 +29,7 @@ export default {
     // 'type'に応じてクラスを動的に生成する
     classes () {
       const cls = this.type === 'text' ? ('-' + this.type) : ''
-      return [`kbn-buttons${cls}`]
+      return [`kbn-button${cls}`]
     }
   },
 

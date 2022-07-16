@@ -1,5 +1,5 @@
-import { mount } from "@vue/test-utils";
-import KbnLoginForm from '@/components/molecules/KbnLoginForm.vue';
+import { mount } from '@vue/test-utils'
+import KbnLoginForm from '@/components/molecules/KbnLoginForm.vue'
 
 describe('KbnLoginForm', () => {
   describe('プロパティ', () => {
@@ -7,7 +7,7 @@ describe('KbnLoginForm', () => {
       let loginForm
       beforeEach(done => {
         loginForm = mount(KbnLoginForm, {
-          propsData: { onlogin:() => {} }
+          propsData: { onlogin: () => {} }
         })
         loginForm.vm.$nextTick(done)
       })
@@ -50,7 +50,7 @@ describe('KbnLoginForm', () => {
         describe('required', () => {
           describe('何も入力されていない', () => {
             it('validation.password.requiredがinvaildであること', () => {
-              loginForm.setData({  password: '' })
+              loginForm.setData({ password: '' })
               expect(loginForm.vm.validation.password.required).to.equal(false)
             })
           })
@@ -167,7 +167,7 @@ describe('KbnLoginForm', () => {
             const authInfo = onloginStub.args[0][0]
             expect(authInfo.email).to.equal(loginForm.vm.email)
             expect(authInfo.password).to.equal(loginForm.vm.password)
-            loginForm.vm.$nextTick(() => { 
+            loginForm.vm.$nextTick(() => {
               // resolve内での状態の反映
               expect(loginForm.vm.error).to.equal('') // エラーメッセージは初期化のまま
               expect(loginForm.vm.disableLoginAction).to.equal(false) // ログインアクションは可能

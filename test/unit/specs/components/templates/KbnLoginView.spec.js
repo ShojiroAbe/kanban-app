@@ -29,7 +29,7 @@ describe('KbnLoginView', () => {
       render: h => h('p', ['login from'])
     }
 
-    //Vue Routerのモック設定
+    // Vue Routerのモック設定
     $router = {
       push: sinonChai.spy()
     }
