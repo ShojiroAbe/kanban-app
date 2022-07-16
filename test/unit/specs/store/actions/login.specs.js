@@ -1,0 +1,71 @@
+import Vue from 'vue'
+import * as types from '@/store/mutation-types'
+import { beforeEach } from 'mocha'
+
+// loginアクション内の依存関係をモック化する
+const mockLoginAction = Login => {
+  // inject-loaderを使ってアクション内の依存関係をモック化するための注入関数を取得する
+  const actionsInjector = require('inject-loader!@/store/actions')
+
+  // 注入関数でAuth APIモジュールをモック化する
+  const actionsMocks = actionsInjector({
+    '../api': {
+      Auth: {login}
+    }
+  })
+
+  return actionsMocks.default.login
+}
+
+describe('loginアクション', () => {
+  const address = 'foo@domain.com'
+  const password = '12345678'
+  let commit
+  let future
+
+  describe('Auth.logingが成功', () => {
+    const token = '1234567890abcdf'
+    const userId = 1
+
+    beforeEach(done => {
+      const login = authInfo => Promise.resolve({ token, userId })
+      const actions = mockLoginAction(login)
+      commit = sinon.spy()
+
+      // loginアクションの実行
+      future = action({ commit }, { address, password })
+      Vue.nextTick(done)
+    })
+
+    it('成功となること', () => {
+      // commitが呼ばれているかチェック
+      expect(commit.called).to.equal(true)
+      expect(commit.args[0][0]).to.equal(types.AUTH_LOGIN)
+      expect(commit.args[0][1].token).to.equal(token)
+      expect(commit.args[0][1].userId).to.equal(userId)
+    })
+  })
+
+  describe('Auth.logingが失敗', () => {
+    beforeEach(done => {
+      const login = authInfo => Promise.reject(new Error('login failed'))
+      const actions = mockLoginAction(login)
+      commit = sinon.spy()
+
+      // loginアクションの実行
+      future = action({ commit })
+      Vue.nextTick(done)
+    })
+
+    it('失敗となること', () => {
+      // commitが呼ばれていないかチェック
+      expect(commit.called).to.equal(false)
+
+      // エラーが投げられているかチェック
+      future.catdh(eer => {
+        expect(err.message).to.equal('login failed')
+        done()
+      })
+    })
+  })
+})
