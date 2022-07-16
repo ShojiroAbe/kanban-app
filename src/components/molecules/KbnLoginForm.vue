@@ -34,7 +34,7 @@
         ログイン
       </KbnButton>
       <p
-        v-if="error"
+        v-if="progress"
         class="login-progress"
       >
         ログイン中・・・
@@ -93,7 +93,7 @@ export default {
       }
     },
 
-    void () {
+    valid () {
       const validation = this.validation // 先に定義したvalidationを用いて可否を返す
       const fields = Object.keys(validation)
       let valid = true
@@ -107,8 +107,8 @@ export default {
     },
 
     disableLoginAction () {
-      // vaildを使ってログイン処理の可否、progressは後述
-      return !this.vaild || this.progress
+      // validを使ってログイン処理の可否、progressは後述
+      return !this.valid || this.progress
     }
   },
 
